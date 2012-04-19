@@ -1,0 +1,11 @@
+bin/
+obj/
+Debug/
+Release/
+ipch/
+
+*.suo
+*.vcxproj.user
+*.vcsproj.user
+*.opensdf
+*.sdf
