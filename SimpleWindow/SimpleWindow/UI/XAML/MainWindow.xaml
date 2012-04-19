@@ -1,0 +1,17 @@
+﻿<Window x:Class="LWisteria.StudiesOfOpenTK.SimpleWindow.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:opentk2="clr-namespace:OpenTK;assembly=OpenTK.GLControl"
+	
+	WindowStartupLocation="CenterScreen"
+	Title="SimpleWindow @ Studies of OpenTK"
+		
+	Width="800"
+	Height="600"
+	>
+	<Grid>
+		<WindowsFormsHost>
+			<opentk2:GLControl x:Name="glControl" />
+		</WindowsFormsHost>
+	</Grid>
+</Window>
