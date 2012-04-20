@@ -1,4 +1,4 @@
-= My Studies of OpenTK =
+= Studies of OpenTK =
 ;author (attribution)
 : 青子守歌 (aokomoriuta)
 ;URL
