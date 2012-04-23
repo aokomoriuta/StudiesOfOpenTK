@@ -46,8 +46,8 @@ namespace LWisteria.StudiesOfOpenTK.CubeWithShader
 					int flagmentShader = GL.CreateShader(ShaderType.FragmentShader);
 
 					// ソースから読み込み
-					GL.ShaderSource(vertexShader, Properties.Resources.phong_vertex);
-					GL.ShaderSource(flagmentShader, Properties.Resources.phong_fragment);
+					GL.ShaderSource(vertexShader, Properties.Resources.vertex);
+					GL.ShaderSource(flagmentShader, Properties.Resources.fragment);
 
 					// コンパイル
 					GL.CompileShader(vertexShader);

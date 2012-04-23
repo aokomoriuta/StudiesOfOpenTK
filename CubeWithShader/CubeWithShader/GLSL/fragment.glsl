@@ -1,4 +1,4 @@
-﻿//! input: diffusing color
+//! input: diffusing color
 varying vec4 diffuseColor;
 
 //! entry point

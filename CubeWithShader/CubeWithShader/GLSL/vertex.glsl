@@ -1,4 +1,4 @@
-﻿//! input: position of vertex
+//! input: position of vertex
 attribute vec3 position;
 
 //! input: normal vector of vertex

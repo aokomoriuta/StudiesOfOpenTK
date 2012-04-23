@@ -61,36 +61,52 @@ namespace LWisteria.StudiesOfOpenTK.CubeWithShader.Properties {
         }
         
         /// <summary>
-        ///   varying vec4 diffuseColor;
-        ///void main(void)
-        ///{	
+        ///   //! input: diffusing color
+        ///varying vec4 diffuseColor;
+        ///
+        /////! entry point
+        ///void main()
+        ///{
+        ///	// set color with diffusing color
         ///	gl_FragColor = diffuseColor;
-        ///}
-        /// に類似しているローカライズされた文字列を検索します。
+        ///} に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string phong_fragment {
+        internal static string fragment {
             get {
-                return ResourceManager.GetString("phong_fragment", resourceCulture);
+                return ResourceManager.GetString("fragment", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   attribute vec3 position;
+        ///   //! input: position of vertex
+        ///attribute vec3 position;
+        ///
+        /////! input: normal vector of vertex
         ///attribute vec3 normal;
-        ///uniform mat4 world;
-        ///uniform mat4 viewProjection;
-        ///uniform vec3 lightDir;
+        ///
+        /////! input: view (camera)
+        ///uniform mat4 view;
+        ///
+        /////! input: projection matrix
+        ///uniform mat4 projection;
+        ///
+        /////! input: direction of light
+        ///uniform vec3 lightDirection;
+        ///
+        /////! output: diffusing color
         ///varying vec4 diffuseColor;
-        ///void main(void)
+        ///
+        /////! entry point
+        ///void main()
         ///{
-        ///	gl_Position = viewProjection * world * vec4(position, 1.0);
-        ///	diffuseColor = vec4(max(0,dot(mat3(world) * normal,-lightDir)));
-        ///	diffuseColor.a = 1.0;
-        ///} に類似しているローカライズされた文字列を検索します。
+        ///	//! calculate position by view, projection and position of vertex
+        ///	gl_Position = projection*view * vec4(position, 1.0);
+        ///
+        ///	//!  [残りの文字列は切り詰められました]&quot;; に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        internal static string phong_vertex {
+        internal static string vertex {
             get {
-                return ResourceManager.GetString("phong_vertex", resourceCulture);
+                return ResourceManager.GetString("vertex", resourceCulture);
             }
         }
     }
