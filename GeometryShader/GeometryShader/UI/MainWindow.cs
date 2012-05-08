@@ -84,8 +84,8 @@ namespace LWisteria.StudiesOfOpenTK.GeometryShader
 					GL.AttachShader(program, flagmentShader);
 					
 					// 入出力値のタイプを設定
-					GL.Ext.ProgramParameter(program, ExtGeometryShader4.GeometryInputTypeExt, (int)All.Points);
-					GL.Ext.ProgramParameter(program, ExtGeometryShader4.GeometryOutputTypeExt, (int)All.Points);
+					GL.Ext.ProgramParameter(program, ExtGeometryShader4.GeometryInputTypeExt, (int)All.Triangles);
+					GL.Ext.ProgramParameter(program, ExtGeometryShader4.GeometryOutputTypeExt, (int)All.Triangles);
 
 					// 最大頂点数を指定
 					int maxVerticesCount;
@@ -208,7 +208,7 @@ namespace LWisteria.StudiesOfOpenTK.GeometryShader
 				GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 				// 描画
-				GL.DrawElements(BeginMode.Points, indexCount, DrawElementsType.UnsignedInt, 0);
+				GL.DrawElements(BeginMode.Triangles, indexCount, DrawElementsType.UnsignedInt, 0);
 
 				// バッファーを交換
 				glControl.SwapBuffers();

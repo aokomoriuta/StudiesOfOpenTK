@@ -43,12 +43,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="SimpleWindowMain.cs" />
+    <Compile Include="GeometryShaderMain.cs" />
     <Compile Include="UI\MainWindow.cs" />
     <Compile Include="CompileShaderException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="SimpleWindowMain.xaml">
+    <ApplicationDefinition Include="GeometryShaderMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
