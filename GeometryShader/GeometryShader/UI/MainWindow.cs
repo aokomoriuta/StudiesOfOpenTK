@@ -82,10 +82,6 @@ namespace LWisteria.StudiesOfOpenTK.GeometryShader
 					GL.AttachShader(program, vertexShader);
 					GL.AttachShader(program, geometryShader);
 					GL.AttachShader(program, flagmentShader);
-					
-					// 入出力値のタイプを設定
-					GL.Ext.ProgramParameter(program, ExtGeometryShader4.GeometryInputTypeExt, (int)All.Triangles);
-					GL.Ext.ProgramParameter(program, ExtGeometryShader4.GeometryOutputTypeExt, (int)All.Triangles);
 
 					// 最大頂点数を指定
 					int maxVerticesCount;
@@ -110,14 +106,12 @@ namespace LWisteria.StudiesOfOpenTK.GeometryShader
 					var vertices = new Vector3[]
 					{
 						new Vector3(0, 0, 0),
-						new Vector3(1, 0, 0),
-						new Vector3(0, 1, 0),
 					};
 
 					// 頂点インデックスデータの作成
 					var indices = new uint[]
 					{
-						0,1,2,
+						0,
 					};
 
 					// 頂点インデックス数設定
@@ -138,7 +132,7 @@ namespace LWisteria.StudiesOfOpenTK.GeometryShader
 						BufferUsageHint.StaticDraw);
 					GL.BufferData<uint>(
 						BufferTarget.ElementArrayBuffer,
-						new IntPtr(sizeof(uint) * indices.Length),
+						new IntPtr(sizeof(uint) * indexCount),
 						indices,
 						BufferUsageHint.StaticDraw);
 				}
@@ -208,7 +202,7 @@ namespace LWisteria.StudiesOfOpenTK.GeometryShader
 				GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
 
 				// 描画
-				GL.DrawElements(BeginMode.Triangles, indexCount, DrawElementsType.UnsignedInt, 0);
+				GL.DrawElements(BeginMode.Points, 3, DrawElementsType.UnsignedInt, 0);
 
 				// バッファーを交換
 				glControl.SwapBuffers();
