@@ -20,12 +20,15 @@ void main(void)
 	gl_Position = projectionView* gl_in[0].gl_Position;
 	EmitVertex();
 
+	// other points1
 	gl_Position = projectionView* (gl_in[0].gl_Position + vec4(1, 0, 0, 0));
 	EmitVertex();
 
+	// other points2
 	gl_Position = projectionView* (gl_in[0].gl_Position + vec4(0, 1, 0, 0));
 	EmitVertex();
 
+	// other points3
 	gl_Position = projectionView* (gl_in[0].gl_Position + vec4(1, 1, 0, 0));
 	EmitVertex();
 
