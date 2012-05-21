@@ -116,11 +116,12 @@ namespace LWisteria.StudiesOfOpenTK.CubeWithGeometryShader
 					// 頂点インデックスデータの作成
 					var indices = new uint[]
 					{
-						0, 1, 2, 3, 4
+						0,
+						1,
+						2,
+						3,
+						4
 					};
-
-					// 立方体の大きさ
-					float cubeSize = 1.5f;
 
 					// 頂点インデックス数設定
 					indexCount = indices.Length;
@@ -133,7 +134,7 @@ namespace LWisteria.StudiesOfOpenTK.CubeWithGeometryShader
 					GL.GenBuffers(1, out ebo);
 					GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 
-					// 頂点と頂点インデックスを書き込み
+					// データを書き込み
 					GL.BufferData<Vector3>(BufferTarget.ArrayBuffer,
 						new IntPtr(Vector3.SizeInBytes * vertices.Length),
 						vertices,
@@ -145,7 +146,7 @@ namespace LWisteria.StudiesOfOpenTK.CubeWithGeometryShader
 						BufferUsageHint.StaticDraw);
 
 					// 立方体の大きさを設定
-					GL.Uniform1(GL.GetUniformLocation(program, "cubeSize"), cubeSize);
+					GL.Uniform1(GL.GetUniformLocation(program, "cubeSize"), 1.5f);
 				}
 
 				// 頂点データとシェーダーの関連付け
