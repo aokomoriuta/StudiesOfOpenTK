@@ -1,0 +1,20 @@
+﻿<Window x:Class="LWisteria.StudiesOfOpenTK.MouseControl.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:opentk2="clr-namespace:OpenTK;assembly=OpenTK.GLControl"
+	
+	WindowStartupLocation="CenterScreen"
+	Title="MouseControl @ Studies of OpenTK"
+		
+	Width="800"
+	Height="600"
+	>
+	
+	<!-- 最上位コンテナ -->
+	<Grid>
+		<!-- OpenGL表示パネル -->
+		<WindowsFormsHost>
+			<opentk2:GLControl x:Name="glControl" />
+		</WindowsFormsHost>
+	</Grid>
+</Window>
