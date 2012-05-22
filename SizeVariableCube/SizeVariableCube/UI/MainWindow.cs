@@ -111,12 +111,12 @@ namespace LWisteria.StudiesOfOpenTK.SizeVariableCube
 					// 立方体データの作成
 					var cubes = new Cube[]
 					{
-						new Cube(new Vector3(0, 0, 0), 1.5f),
-						new Cube(new Vector3(2, 0, 0), 1.6f),
-						new Cube(new Vector3(4, 0, 0), 1.7f),
-						new Cube(new Vector3(0, 2, 0), 1.8f),
-						new Cube(new Vector3(0, 4, 0), 1.9f),
-						new Cube(new Vector3(0, 6, 0), 2.0f),
+						new Cube(new Vector3(0, 0, 0), 0.2f),
+						new Cube(new Vector3(2, 0, 0), 0.4f),
+						new Cube(new Vector3(4, 0, 0), 0.8f),
+						new Cube(new Vector3(0, 2, 0), 1.0f),
+						new Cube(new Vector3(0, 4, 0), 1.2f),
+						new Cube(new Vector3(0, 6, 0), 1.4f),
 					};
 
 					// 頂点インデックスデータの作成

@@ -43,13 +43,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="MouseControlMain.cs" />
+    <Compile Include="SizeVariableCubeMain.cs" />
     <Compile Include="UI\MainWindow.cs" />
     <Compile Include="CompileShaderException.cs" />
     <Compile Include="Cube.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="MouseControlMain.xaml">
+    <ApplicationDefinition Include="SizeVariableCubeMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
