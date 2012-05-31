@@ -19,7 +19,7 @@ in Cube
 	float Size;
 
 	//! color
-	vec3 Color;
+	vec4 Color;
 } cubeVertex[];
 
 //! output: vertex data
@@ -29,7 +29,7 @@ out Vertex
 	vec3 Normal;
 
 	// color of this plane
-	vec3 Color;
+	vec4 Color;
 } vertexGeometry;
 
 //! projection and model matrix
@@ -43,7 +43,7 @@ mat4 projectionView;
 	\param p3 forth position of vertex of this plane
 	\param color color of this plane
 */
-void DrawPlane(vec4 p0, vec4 p1, vec4 p2, vec4 p3, vec3 color)
+void DrawPlane(vec4 p0, vec4 p1, vec4 p2, vec4 p3, vec4 color)
 {
 	vec3 normal1 = cross((p3 - p1).xyz, (p2 - p1).xyz);
 	vec3 normal2 = cross((p2 - p1).xyz, (p0 - p1).xyz);
@@ -91,7 +91,7 @@ void main(void)
 	float size = cubeVertex[0].Size/2;
 
 	// get color of cube
-	vec3 color = cubeVertex[0].Color;
+	vec4 color = cubeVertex[0].Color;
 
 	// calculate each position of vertex of cube
 	vec4 position[8];

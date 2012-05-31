@@ -7,7 +7,7 @@ in Vertex
 	vec3 Normal;
 
 	// color of this plane
-	vec3 Color;
+	vec4 Color;
 } vertexGeometry;
 
 //! output: color
@@ -27,5 +27,5 @@ void main()
 	float diffuse = max(0, dot(vertexGeometry.Normal, -normalize(light)) );
 
 	// set diffusing color
-	outColor = vec4((ambient + (1-ambient)*diffuse)* vertexGeometry.Color, 1);
+	outColor = (ambient + (1-ambient)*diffuse)* vertexGeometry.Color;
 }

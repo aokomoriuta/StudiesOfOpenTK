@@ -1,6 +1,7 @@
 ﻿using System;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using OpenTK.Graphics;
 
 namespace LWisteria.StudiesOfOpenTK.PhongShading
 {
@@ -130,12 +131,12 @@ namespace LWisteria.StudiesOfOpenTK.PhongShading
 					// 立方体データの作成
 					var cubes = new Cube[]
 					{
-						new Cube(new Vector3(0, 0, 0), 0.2f, new Vector3(1, 0, 0)),
-						new Cube(new Vector3(2, 0, 0), 0.4f, new Vector3(0, 1, 0)),
-						new Cube(new Vector3(4, 0, 0), 0.6f, new Vector3(0, 0, 1)),
-						new Cube(new Vector3(0, 2, 0), 0.8f, new Vector3(1, 1, 0)),
-						new Cube(new Vector3(0, 4, 0), 1.0f, new Vector3(0, 1, 1)),
-						new Cube(new Vector3(0, 6, 0), 1.2f, new Vector3(1, 0, 1)),
+						new Cube(new Vector3(0, 0, 0), 0.2f, new Color4(255,   0,   0, 255)),
+						new Cube(new Vector3(2, 0, 0), 0.4f, new Color4(  0, 255,   0, 255)),
+						new Cube(new Vector3(4, 0, 0), 0.6f, new Color4(  0,   0, 255, 255)),
+						new Cube(new Vector3(0, 2, 0), 0.8f, new Color4(255, 255,   0, 255)),
+						new Cube(new Vector3(0, 4, 0), 1.0f, new Color4(  0, 255, 255, 255)),
+						new Cube(new Vector3(0, 6, 0), 1.2f, new Color4(255,   0, 255, 255)),
 					};
 
 					// 頂点インデックスデータの作成
@@ -205,7 +206,7 @@ namespace LWisteria.StudiesOfOpenTK.PhongShading
 						Vector3.SizeInBytes);
 					GL.VertexAttribPointer(
 						colorLocation,
-						3,
+						4,
 						VertexAttribPointerType.Float,
 						false,
 						Cube.SizeInByte,
@@ -262,6 +263,14 @@ namespace LWisteria.StudiesOfOpenTK.PhongShading
 						// 角度を変更
 						theta += -2 * Math.PI * delta.X / this.glControl.Width;
 						phi += Math.PI * delta.Y / this.glControl.Height;
+
+						// 仰角は-π/2からπ/2まで
+						phi = Math.Max(-Math.PI / 2, phi);
+						phi = Math.Min(phi, Math.PI / 2);
+
+						// 水平角は0から2πまで
+						theta = (theta >= 0) ? theta : 2 * Math.PI + theta;
+						theta = (theta <= 2 * Math.PI) ? theta : theta - 2 * Math.PI;
 					}
 
 					// 前の位置を覚えておく

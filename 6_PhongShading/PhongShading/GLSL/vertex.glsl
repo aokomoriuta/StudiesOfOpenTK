@@ -7,7 +7,7 @@ in vec3 cubePosition;
 in float cubeSize;
 
 //! input: color of cube
-in vec3 cubeColor;
+in vec4 cubeColor;
 
 //! output: cube data
 out Cube
@@ -19,7 +19,7 @@ out Cube
 	float Size;
 
 	//! color
-	vec3 Color;
+	vec4 Color;
 } cubeVertex;
 
 //! entry point
