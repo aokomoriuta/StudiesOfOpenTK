@@ -47,7 +47,7 @@ namespace LWisteria.StudiesOfOpenTK.PhongShading
 				Matrix4 view =
 					Matrix4.LookAt(cameraPosition,
 						new Vector3(0, 0, 0),
-						new Vector3(0, 0, (float)Math.Cos(phi))
+						new Vector3(0, 0, 1)
 					);
 				GL.UniformMatrix4(GL.GetUniformLocation(program, "view"), false, ref view);
 
@@ -112,11 +112,6 @@ namespace LWisteria.StudiesOfOpenTK.PhongShading
 					GL.AttachShader(program, vertexShader);
 					GL.AttachShader(program, geometryShader);
 					GL.AttachShader(program, flagmentShader);
-
-					// 最大頂点数を指定
-					int maxVerticesCount;
-					GL.GetInteger((GetPName)ExtGeometryShader4.MaxGeometryOutputVerticesExt, out maxVerticesCount);
-					GL.Ext.ProgramParameter(program, ExtGeometryShader4.GeometryVerticesOutExt, maxVerticesCount);
 
 					// プログラムをリンク
 					GL.LinkProgram(program);
@@ -217,7 +212,6 @@ namespace LWisteria.StudiesOfOpenTK.PhongShading
 						Vector3.SizeInBytes + sizeof(float));
 
 					// 作成した頂点および頂点配列を設定
-					GL.BindVertexArray(vao);
 					GL.BindBuffer(BufferTarget.ElementArrayBuffer, ebo);
 				}
 
