@@ -72,9 +72,6 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveOpenTK.Test
 				// シェーダー側で点の大きさを変更可能に
 				mainWindow.ProgramGL.Enable(EnableCap.ProgramPointSize);
 
-				// 画面全体を表示
-				mainWindow.ProgramGL.Viewport(0, 0, mainWindow.viewport.ActualWidth, mainWindow.viewport.ActualHeight);
-
 				// 環境光強度を割り当て
 				mainWindow.ProgramGL.SetUniform("ambient", 0.3f);
 			}

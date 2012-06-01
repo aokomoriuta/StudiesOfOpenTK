@@ -29,6 +29,13 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveOpenTK
 		/// </summary>
 		public Viewport3D()
 		{
+			// 大きさが変わったら
+			this.SizeChanged += (sender, e) =>
+			{
+				// 再描画
+				this.Invalidate();
+			};
+
 			// コントロール上でマウスホイールされたら
 			this.glControl.MouseWheel += (sender2, e2) =>
 			{
@@ -38,8 +45,6 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveOpenTK
 				// 再描画
 				this.Invalidate();
 			};
-
-
 
 			// 以前のマウス位置
 			Vector2? oldMouseLocation = null;

@@ -5,7 +5,7 @@
 	xmlns:myopentk="clr-namespace:LWisteria.StudiesOfOpenTK.ObjectiveOpenTK;assembly=ObjectiveOpenTKStudiesOfOpenTK"
 		
 	WindowStartupLocation="CenterScreen"
-	Title="PhongShading @ Studies of OpenTK"
+	Title="ObjectiveOpenTK @ Studies of OpenTK"
 		
 	Width="800"
 	Height="600"
@@ -14,6 +14,6 @@
 	<!-- 最上位コンテナ -->
 	<Grid>
 		<!-- OpenGL表示パネル -->
-		<myopentk:Viewport3D x:Name="viewport" />
+		<myopentk:Viewport3D Width="auto" Height="auto" x:Name="viewport" />
 	</Grid>
 </Window>

@@ -44,6 +44,19 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveOpenTK
 					this.glControl.SwapBuffers();
 				}
 			};
+
+			// 大きさが変わったら
+			this.SizeChanged += (sender, e) =>
+			{
+				// コントロールを有効化
+				this.glControl.MakeCurrent();
+
+				// 画面全体を表示
+				this.Program.Viewport(0, 0, this.ActualWidth, this.ActualHeight);
+
+				// コントロールを再描画
+				this.glControl.Invalidate();
+			};
 		}
 	}
 }
