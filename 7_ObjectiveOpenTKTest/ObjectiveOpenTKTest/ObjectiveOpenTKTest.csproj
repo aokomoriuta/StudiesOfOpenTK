@@ -80,7 +80,7 @@
     <EmbeddedResource Include="GLSL\geometry.glsl" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\ObjectiveOpenTK\ObjectiveOpenTK.csproj">
+    <ProjectReference Include="..\ObjectiveOpenTK\ObjectiveOpenTK.csproj">
       <Project>{E35B1146-20C6-403E-A683-9590EC49D29F}</Project>
       <Name>ObjectiveOpenTK</Name>
     </ProjectReference>

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectiveOpenTKTest", "ObjectiveOpenTKTest\ObjectiveOpenTKTest.csproj", "{061B8405-F948-437E-B0EF-9B11A69D28FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectiveOpenTK", "..\ObjectiveOpenTK\ObjectiveOpenTK.csproj", "{E35B1146-20C6-403E-A683-9590EC49D29F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ObjectiveOpenTK", "ObjectiveOpenTK\ObjectiveOpenTK.csproj", "{E35B1146-20C6-403E-A683-9590EC49D29F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
