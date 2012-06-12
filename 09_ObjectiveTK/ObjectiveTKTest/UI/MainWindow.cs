@@ -49,24 +49,25 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveTK.Test
 			// 再描画処理
 			Action redraw = () =>
 			{
-				// カメラの位置を計算
-				var cameraPosition = this.Viewport.Camera.Position;
-
 				// ビュー（カメラ）を作成
 				Matrix4 view = this.Viewport.View;
 
 				// 投影法を作成
 				Matrix4 projection = this.Viewport.Projection;
 
+				// カメラからの光源の方向を計算
+				var light = this.Viewport.Camera.LookAt - this.Viewport.Camera.Position;
+				light.Normalize();
+
 
 				// 立方体プログラムに割り当て
 				this.programCube.SetUniform("view", view);
-				this.programCube.SetUniform("light", -cameraPosition);
+				this.programCube.SetUniform("light", light);
 				this.programCube.SetUniform("projection", projection);
 
 				// 四角錐プログラムに割り当て
 				this.programPyramid.SetUniform("view", view);
-				this.programPyramid.SetUniform("light", -cameraPosition);
+				this.programPyramid.SetUniform("light", light);
 				this.programPyramid.SetUniform("projection", projection);
 
 				// 再描画
