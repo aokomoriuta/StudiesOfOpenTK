@@ -36,27 +36,53 @@ namespace LWisteria.StudiesOfOpenTK.DynamicData
 			int cubeCount = 300;
 
 			// 立方体配列を初期化
-			var cubes = new Cube[cubeCount];
+			var cubes = new Cube[cubeCount * cubeCount];
 
 			// 時刻と時間刻み
 			double t = 0;
-			double dt = 1.0/60;
+			double dt = 1.0/25;
+
+			// 各立方体を
+			for(int i = 0; i < cubeCount; i++)
+			{
+				for(int j = 0; j < cubeCount; j++)
+				{
+					// 作成
+					cubes[i * cubeCount + j] = new Cube(0.8f, new Color4((byte)(255 * i / cubeCount), 0, 255, 255));
+
+					// 座標設定
+					cubes[i * cubeCount + j].PositionX = i;
+					cubes[i * cubeCount + j].PositionY = j;
+					cubes[i * cubeCount + j].PositionZ = 0;
+				}
+			}
+
+			bool isProccessing = false;
 
 			// 一定間隔での処理
 			Timer timer = new Timer((TimerCallback)((state)=>
 			{
-				// 各立方体を
-				for(int i = 0; i < cubeCount; i++)
+				if(!isProccessing)
 				{
-					// 作成
-					cubes[i] = new Cube(new Vector3(i, (float)(10 * Math.Sin(13*i * t / cubeCount) * i / cubeCount), 0), 0.8f, new Color4((byte)(255 * i / cubeCount), 0, 255, 255));
-				}
+					isProccessing = true;
 
-				// 立方体を描画
-				mainWindow.Dispatcher.BeginInvoke((Action)(()=>
-				{
-					mainWindow.Draw(cubes);
-				}));
+					// 各立方体を
+					for(int i = 0; i < cubeCount; i++)
+					{
+						for(int j = 0; j < cubeCount; j++)
+						{
+							cubes[i * cubeCount + j].PositionZ = (float)(10 * Math.Sin(10 * i * t / cubeCount) * j / cubeCount);
+						}
+					}
+
+					// 立方体を描画
+					mainWindow.Dispatcher.BeginInvoke((Action)(() =>
+					{
+						mainWindow.Draw(cubes);
+
+						isProccessing = false;
+					}));
+				}
 
 				// 時刻を進める
 				t += dt;

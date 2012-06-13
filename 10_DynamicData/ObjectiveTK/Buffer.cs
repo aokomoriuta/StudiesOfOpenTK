@@ -233,7 +233,7 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveTK
 			GL.BindVertexArray(this.vertexArray);
 			GL.BindBuffer(BufferTarget.ElementArrayBuffer, this.elementBuffer);
 
-			// 明るい立方体を描画
+			// 描画
 			GL.DrawElements(this.mode, this.indicesCount, DrawElementsType.UnsignedInt, 0);
 		}
 
