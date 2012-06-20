@@ -71,7 +71,7 @@
 							</Grid.ColumnDefinitions>
 
 							<!-- ラベル -->
-							<TextBlock Grid.Row="0">現在時刻</TextBlock>
+							<TextBlock Grid.Row="0">計算時刻</TextBlock>
 							<TextBlock Grid.Row="1">総ステップ数</TextBlock>
 							<TextBlock Grid.Row="2">時間刻み</TextBlock>
 							<TextBlock Grid.Row="3">総粒子数</TextBlock>
@@ -99,14 +99,16 @@
 							</Grid.ColumnDefinitions>
 
 							<!-- ラベル -->
-							<TextBlock Grid.Row="0">時間ステップ/現実時間[s]</TextBlock>
-							<TextBlock Grid.Row="1">時間ステップ/現実時間[s]/粒子</TextBlock>
-							<TextBlock Grid.Row="2">計算時間/現実時間[s]</TextBlock>
+							<TextBlock Grid.Row="0">現実経過時間</TextBlock>
+							<TextBlock Grid.Row="1">現実時間[s]/時間ステップ</TextBlock>
+							<TextBlock Grid.Row="2">現実時間[s]/時間ステップ/粒子</TextBlock>
+							<TextBlock Grid.Row="3">現実時間[s]/計算時間</TextBlock>
 
 							<!-- ボックス -->
-							<TextBox Grid.Row="0" x:Name="StepPerRealBox" />
-							<TextBox Grid.Row="1" x:Name="StepPerRealPerParticleBox" />
-							<TextBox Grid.Row="2" x:Name="ComputationalPerRealBox" />
+							<TextBox Grid.Row="0" x:Name="RealTimeBox" />
+							<TextBox Grid.Row="1" x:Name="StepPerRealBox" />
+							<TextBox Grid.Row="2" x:Name="StepPerRealPerParticleBox" />
+							<TextBox Grid.Row="3" x:Name="ComputationalPerRealBox" />
 						</Grid>
 					</DockPanel>
 				</ScrollViewer>

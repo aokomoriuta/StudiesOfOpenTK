@@ -181,13 +181,11 @@ namespace LWisteria.StudiesOfOpenTK.CpuDem
 			// 描画を開始
 			renderer.Change(0, fps);
 
-
-			// 速度計測間隔
-			double measureInterval = 1.0;
-
 			// 前の時刻と時間ステップ
 			double oldT = 0;
 			double oldTimeStep = 0;
+			var oldRealT = DateTime.Now;
+			var initialT = DateTime.Now;
 
 			// 速度計測
 			Timer speedMeasure = new Timer((TimerCallback)((state) =>
@@ -195,23 +193,37 @@ namespace LWisteria.StudiesOfOpenTK.CpuDem
 				// 速度表示パネルに
 				this.TimePanel.Dispatcher.BeginInvoke((Action)(() =>
 				{
-					// 現在時刻と時間ステップを取得
+					// 時間ステップを取得
 					var thisTimeStep = computer.TimeStep;
-					var thisT = computer.T;
+					var thisRealT = DateTime.Now;
 
-					// 各データを表示
-					this.StepPerRealBox.Text = ((thisTimeStep - oldTimeStep)/measureInterval).ToString();
-					this.StepPerRealPerParticleBox.Text = ((thisTimeStep - oldTimeStep) / measureInterval / computer.ParticleCount).ToString("G5");
-					this.ComputationalPerRealBox.Text = ((thisT - oldT)/measureInterval).ToString("G5");
+					// 時間ステップが進んでいれば
+					if(thisTimeStep != oldTimeStep)
+					{
+						// 時刻を取得
+						var thisT = computer.T;
 
-					// 前の時刻と時間ステップを設定
-					oldT = thisT;
-					oldTimeStep = thisTimeStep;
+						// 経過時間を秒で計算
+						double interval = (double)(thisRealT - oldRealT).TotalSeconds;
+
+						// 各データを表示
+						this.StepPerRealBox.Text = (interval / (thisTimeStep - oldTimeStep)).ToString("G5");
+						this.StepPerRealPerParticleBox.Text = (interval / (thisTimeStep - oldTimeStep) / computer.ParticleCount).ToString("G5");
+						this.ComputationalPerRealBox.Text = (interval / (thisT - oldT)).ToString("G5");
+
+						// 前の時刻と時間ステップを設定
+						oldT = thisT;
+						oldTimeStep = thisTimeStep;
+						oldRealT = thisRealT;
+					}
+
+					// 現在時刻を表示
+					this.RealTimeBox.Text = (thisRealT - initialT).ToString(@"d\.hh\:mm\:ss");
 				}));
 			}));
 
 			// 1秒感覚で速度計測を開始
-			speedMeasure.Change(0, (int)(measureInterval*1000));
+			speedMeasure.Change(0, 1000);
 		}
 
 		/// <summary>

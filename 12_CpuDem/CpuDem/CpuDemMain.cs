@@ -25,8 +25,8 @@ namespace LWisteria.StudiesOfOpenTK.CpuDem
 			const double length0Wall = diameterWall * 0.75;
 
 			// 計算領域
-			const double sizeX = 1500e-3;
-			const double sizeZ = 600e-3;
+			const double sizeX = 4500e-3;
+			const double sizeZ = 2200e-3;
 			const double extraSize = diameter;
 
 			// 物性値

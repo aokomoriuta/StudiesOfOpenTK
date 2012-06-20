@@ -149,7 +149,6 @@ namespace LWisteria.StudiesOfOpenTK.CpuDem
 		{
 			// 準備処理
 			this.prepare();
-
 			
 			// 各粒子について
 			this.EachParticle((particle, i) =>
