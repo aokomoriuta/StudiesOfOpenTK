@@ -1,0 +1,116 @@
+﻿<Window x:Class="LWisteria.StudiesOfOpenTK.CpuDem.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:objectivetk="clr-namespace:LWisteria.StudiesOfOpenTK.ObjectiveTK;assembly=ObjectiveTKStudiesOfOpenTK"
+	
+	WindowStartupLocation="CenterScreen"
+	Title="CpuDem @ Studies of OpenTK"
+	>
+	
+	<!-- 最上位コンテナ -->
+	<Grid>
+
+		<!-- 列定義 -->
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="300" />
+		</Grid.ColumnDefinitions>
+
+		<!-- 3D計算空間表示パネル -->
+		<objectivetk:Viewport3D x:Name="Viewport" Grid.Column="0" />
+
+		<GridSplitter Grid.Column ="1" Background="Gray" 
+                HorizontalAlignment="Center" VerticalAlignment="Stretch"
+				Width="3" />
+
+		<!-- タブ -->
+		<TabControl Grid.Column="2">
+			<!-- 数値データの表示 -->
+			<TabItem Header="計算空間情報">
+				<!-- スタイルの設定 -->
+				<TabItem.Resources>
+					<!-- 見出し -->
+					<Style TargetType="TextBlock">
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="TextAlignment" Value="Right" />
+						<Setter Property="Margin" Value="5" />
+
+						<Setter Property="Grid.Column" Value="0" />
+					</Style>
+					<!-- 値 -->
+					<Style TargetType="TextBox">
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="HorizontalContentAlignment" Value="Right" />
+
+						<Setter Property="IsReadOnly" Value="True" />
+						<Setter Property="Background" Value="LightGray" />
+						<Setter Property="Grid.Column" Value="1" />
+					</Style>
+					<!-- 行 -->
+					<Style TargetType="RowDefinition">
+						<Setter Property="Height" Value="Auto" />
+					</Style>
+				</TabItem.Resources>
+				
+				<ScrollViewer HorizontalScrollBarVisibility="Auto">
+					<DockPanel>
+						<!-- 時刻表示パネル -->
+						<Grid x:Name="TimePanel" DockPanel.Dock="Top">
+							<!-- 行定義 -->
+							<Grid.RowDefinitions>
+								<RowDefinition />
+								<RowDefinition />
+								<RowDefinition />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<!-- 列定義 -->
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="2*"/>
+							</Grid.ColumnDefinitions>
+
+							<!-- ラベル -->
+							<TextBlock Grid.Row="0">現在時刻</TextBlock>
+							<TextBlock Grid.Row="1">総ステップ数</TextBlock>
+							<TextBlock Grid.Row="2">時間刻み</TextBlock>
+							<TextBlock Grid.Row="3">総粒子数</TextBlock>
+
+							<!-- ボックス -->
+							<TextBox Grid.Row="0" x:Name="TBox" />
+							<TextBox Grid.Row="1" x:Name="StepsBox" />
+							<TextBox Grid.Row="2" x:Name="DtBox" />
+							<TextBox Grid.Row="3" x:Name="ParticleCountBox" />
+						</Grid>
+						
+						<!-- 時刻表示パネル -->
+						<Grid x:Name="SpeedPanel" DockPanel.Dock="Top">
+							<!-- 行定義 -->
+							<Grid.RowDefinitions>
+								<RowDefinition />
+								<RowDefinition />
+								<RowDefinition />
+								<RowDefinition />
+							</Grid.RowDefinitions>
+							<!-- 列定義 -->
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="1*"/>
+								<ColumnDefinition Width="2*"/>
+							</Grid.ColumnDefinitions>
+
+							<!-- ラベル -->
+							<TextBlock Grid.Row="0">時間ステップ/現実時間[s]</TextBlock>
+							<TextBlock Grid.Row="1">時間ステップ/現実時間[s]/粒子</TextBlock>
+							<TextBlock Grid.Row="2">計算時間/現実時間[s]</TextBlock>
+
+							<!-- ボックス -->
+							<TextBox Grid.Row="0" x:Name="StepPerRealBox" />
+							<TextBox Grid.Row="1" x:Name="StepPerRealPerParticleBox" />
+							<TextBox Grid.Row="2" x:Name="ComputationalPerRealBox" />
+						</Grid>
+					</DockPanel>
+				</ScrollViewer>
+			</TabItem>
+		</TabControl>
+	</Grid>
+</Window>
