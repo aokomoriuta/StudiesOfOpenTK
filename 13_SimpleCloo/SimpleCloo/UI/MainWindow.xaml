@@ -1,0 +1,303 @@
+﻿<Window x:Class="LWisteria.StudiesOfOpenTK.SimpleCloo.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:objectivetk="clr-namespace:LWisteria.StudiesOfOpenTK.ObjectiveTK;assembly=ObjectiveTKStudiesOfOpenTK"
+	
+	WindowStartupLocation="CenterScreen"
+	Title="SimpleCloo @ Studies of OpenTK"
+	>
+	
+	<!-- 最上位コンテナ -->
+	<Grid>
+		<!-- 列定義 -->
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*" />
+			<ColumnDefinition Width="Auto" />
+			<ColumnDefinition Width="300" />
+		</Grid.ColumnDefinitions>
+
+		<!-- 3D計算空間表示パネル -->
+		<objectivetk:Viewport3D x:Name="Viewport" Grid.Column="0" />
+
+		<!-- 区切り -->
+		<GridSplitter Grid.Column ="1" Background="Gray" 
+                HorizontalAlignment="Center" VerticalAlignment="Stretch"
+				Width="3" />
+
+		<!-- 右側パネル -->
+		<Grid Grid.Column="2">
+			<!-- 行定義 -->
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*" />
+				<RowDefinition Height="Auto" />
+				<RowDefinition Height="300" />
+			</Grid.RowDefinitions>
+
+			<!-- タブ -->
+			<TabControl Grid.Row="0">
+				<!-- スタイルの設定 -->
+				<TabControl.Resources>
+					<!-- タイトル -->
+					<Style TargetType="TextBlock" x:Key="Title">
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="TextAlignment" Value="Center" />
+						<Setter Property="Margin" Value="2" />
+
+						<Setter Property="FontWeight" Value="Bold" />
+						<Setter Property="FontSize" Value="15" />
+
+						<Setter Property="Grid.Column" Value="0" />
+						<Setter Property="Grid.ColumnSpan" Value="2" />
+					</Style>
+					
+					<!-- 見出し -->
+					<Style TargetType="TextBlock">
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="TextAlignment" Value="Right" />
+						<Setter Property="Margin" Value="5" />
+
+						<Setter Property="Grid.Column" Value="0" />
+					</Style>
+					
+					<!-- 値 -->
+					<Style TargetType="TextBox">
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="HorizontalContentAlignment" Value="Right" />
+
+						<Setter Property="IsReadOnly" Value="True" />
+						<Setter Property="Background" Value="LightGray" />
+						<Setter Property="Grid.Column" Value="1" />
+					</Style>
+
+					<!-- 行 -->
+					<Style TargetType="RowDefinition">
+						<Setter Property="Height" Value="Auto" />
+					</Style>
+
+					<!-- グリッドパネル -->
+					<Style TargetType="Grid">
+						<Setter Property="DockPanel.Dock" Value="Top" />
+						<Setter Property="HorizontalAlignment" Value="Stretch" />
+					</Style>
+				</TabControl.Resources>
+				
+				<!-- 数値データの表示 -->
+				<TabItem Header="計算空間情報">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto">
+						<DockPanel>
+							<!-- 時刻表示パネル -->
+							<Grid x:Name="TimePanel">
+								<!-- 行定義 -->
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+								</Grid.RowDefinitions>
+								<!-- 列定義 -->
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="2*"/>
+								</Grid.ColumnDefinitions>
+
+								<!-- タイトル -->
+								<TextBlock Grid.Row="0" Style="{StaticResource Title}">計算空間時刻</TextBlock>
+
+								<!-- ラベル -->
+								<TextBlock Grid.Row="1">計算時刻</TextBlock>
+								<TextBlock Grid.Row="2">総ステップ数</TextBlock>
+								<TextBlock Grid.Row="3">時間刻み</TextBlock>
+								<TextBlock Grid.Row="4">総粒子数</TextBlock>
+
+								<!-- ボックス -->
+								<TextBox Grid.Row="1" x:Name="TBox" />
+								<TextBox Grid.Row="2" x:Name="StepsBox" />
+								<TextBox Grid.Row="3" x:Name="DtBox" />
+								<TextBox Grid.Row="4" x:Name="ParticleCountBox" />
+							</Grid>
+
+							<!-- 時間速度表示パネル -->
+							<Grid x:Name="SpeedPanel">
+								<!-- 行定義 -->
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+								</Grid.RowDefinitions>
+								<!-- 列定義 -->
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="2*"/>
+								</Grid.ColumnDefinitions>
+
+								<!-- タイトル -->
+								<TextBlock Grid.Row="0" Style="{StaticResource Title}">計算速度</TextBlock>
+
+								<!-- ラベル -->
+								<TextBlock Grid.Row="1">現実経過時間</TextBlock>
+								<TextBlock Grid.Row="2">現実時間[s]/時間ステップ</TextBlock>
+								<TextBlock Grid.Row="3">現実時間[s]/時間ステップ/粒子</TextBlock>
+								<TextBlock Grid.Row="4">現実時間[s]/計算時間</TextBlock>
+
+								<!-- ボックス -->
+								<TextBox Grid.Row="1" x:Name="RealTimeBox" />
+								<TextBox Grid.Row="2" x:Name="StepPerRealBox" />
+								<TextBox Grid.Row="3" x:Name="StepPerRealPerParticleBox" />
+								<TextBox Grid.Row="4" x:Name="ComputationalPerRealBox" />
+							</Grid>
+						</DockPanel>
+					</ScrollViewer>
+				</TabItem>
+
+				<!-- 計算機情報 -->
+				<TabItem Header="計算機情報">
+					<!-- スタイルの設定 -->
+					<TabItem.Resources>
+						<!-- テキスト表示 -->
+						<Style TargetType="TextBox" x:Key="Text">
+							<Setter Property="VerticalAlignment" Value="Center" />
+							<Setter Property="HorizontalContentAlignment" Value="Left" />
+
+							<Setter Property="IsReadOnly" Value="True" />
+							<Setter Property="Background" Value="LightGray" />
+							<Setter Property="Grid.Column" Value="1" />
+						</Style>
+					</TabItem.Resources>
+
+					<ScrollViewer VerticalScrollBarVisibility="Auto">
+						<DockPanel>
+							<!-- CPU表示パネル -->
+							<Grid>
+								<!-- 行定義 -->
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+								</Grid.RowDefinitions>
+								<!-- 列定義 -->
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition />
+									<ColumnDefinition />
+								</Grid.ColumnDefinitions>
+
+								<!-- タイトル -->
+								<TextBlock Grid.Row="0" Style="{StaticResource Title}">ホスト</TextBlock>
+
+								<!-- ラベル -->
+								<TextBlock Grid.Row="1">OS</TextBlock>
+								<TextBlock Grid.Row="2">CPU名</TextBlock>
+								<TextBlock Grid.Row="3">CPUベンダー</TextBlock>
+								<TextBlock Grid.Row="4">CPU周波数[GHz]</TextBlock>
+								<TextBlock Grid.Row="5">CPUコア数</TextBlock>
+								<TextBlock Grid.Row="6">物理メモリ[GB]</TextBlock>
+
+								<!-- ボックス -->
+								<TextBox Grid.Row="1" x:Name="OSNameBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="2" x:Name="CpuNameBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="3" x:Name="CpuVenderBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="4" x:Name="CpuMaxClockBox" />
+								<TextBox Grid.Row="5" x:Name="CpuCoreBox" />
+								<TextBox Grid.Row="6" x:Name="CpuMemoryBox" />
+							</Grid>
+
+							<!-- プラットフォーム表示パネル -->
+							<Grid>
+								<!-- 行定義 -->
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+								</Grid.RowDefinitions>
+								<!-- 列定義 -->
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition />
+									<ColumnDefinition />
+								</Grid.ColumnDefinitions>
+
+								<!-- タイトル -->
+								<TextBlock Grid.Row="0" Style="{StaticResource Title}">OpenCLプラットフォーム</TextBlock>
+
+								<!-- ラベル -->
+								<TextBlock Grid.Row="1">名称</TextBlock>
+								<TextBlock Grid.Row="2">ベンダー</TextBlock>
+								<TextBlock Grid.Row="3">バージョン</TextBlock>
+								<TextBlock Grid.Row="4">プロファイル</TextBlock>
+
+								<!-- ボックス -->
+								<TextBox Grid.Row="1" x:Name="PlatformNameBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="2" x:Name="PlatformVenderBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="3" x:Name="PlatformVersionBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="4" x:Name="PlatformProfileBox" Style="{StaticResource Text}" />
+							</Grid>
+
+							<!-- デバイス情報パネル -->
+							<Grid>
+								<!-- 行定義 -->
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+								</Grid.RowDefinitions>
+								<!-- 列定義 -->
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+
+								<!-- タイトル -->
+								<TextBlock Grid.Row="0" Style="{StaticResource Title}">OpenCLデバイス</TextBlock>
+
+								<!-- ラベル -->
+								<TextBlock Grid.Row="1">名称</TextBlock>
+								<TextBlock Grid.Row="2">ベンダー</TextBlock>
+								<TextBlock Grid.Row="3">ドライババージョン</TextBlock>
+								<TextBlock Grid.Row="4">OpenCLバージョン</TextBlock>
+								<TextBlock Grid.Row="5">計算ユニット数</TextBlock>
+								<TextBlock Grid.Row="6">グローバルメモリ[GB]</TextBlock>
+								<TextBlock Grid.Row="7">ローカルメモリ[byte]</TextBlock>
+
+								<!-- ボックス -->
+								<ComboBox x:Name="DeviceNameBox" Grid.Row="1" Grid.Column="1">
+									<ComboBox.ItemTemplate>
+										<DataTemplate>
+											<TextBlock Text="{Binding Name}" />
+										</DataTemplate>
+									</ComboBox.ItemTemplate>
+								</ComboBox>
+								<TextBox Grid.Row="2" x:Name="DeviceVenderBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="3" x:Name="DeviceDriverVersionBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="4" x:Name="DeviceOpenCLVersionBox" Style="{StaticResource Text}" />
+								<TextBox Grid.Row="5" x:Name="DeviceCUBox" />
+								<TextBox Grid.Row="6" x:Name="DeviceGlobalMemoryBox" />
+								<TextBox Grid.Row="7" x:Name="DeviceLocalMemoryBox" />
+
+							</Grid>
+						</DockPanel>
+					</ScrollViewer>
+				</TabItem>
+			</TabControl>
+
+			<!-- 区切り -->
+			<GridSplitter Grid.Row ="1" Background="Gray" 
+                HorizontalAlignment="Stretch" VerticalAlignment="Center"
+				Height="3" />
+
+			<!-- ログ表示 -->
+			<TextBox x:Name="LogBox" Grid.Row ="2" IsReadOnly="True" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+		</Grid>
+	</Grid>
+</Window>

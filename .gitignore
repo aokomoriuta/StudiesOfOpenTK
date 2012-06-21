@@ -9,3 +9,5 @@ ipch/
 *.vcsproj.user
 *.opensdf
 *.sdf
+
+Cloo.xml
