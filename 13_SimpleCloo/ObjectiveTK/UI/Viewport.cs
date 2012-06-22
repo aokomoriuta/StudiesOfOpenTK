@@ -82,15 +82,24 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveTK
 			this.glControl.Invalidate();
 		}
 
+		/// <summary>
+		/// 再描画時に発生するイベント
+		/// </summary>
 		public event EventHandler Invalidated;
 
+		/// <summary>
+		/// 再描画を通知
+		/// </summary>
 		protected void OnInvalidated()
 		{
+			// イベントが空でなければ
 			if(this.Invalidated != null)
 			{
+				// 通知
 				this.Invalidated(this, new EventArgs());
 			}
 
+			// 再描画処理を実行
 			this.Invalidate();
 		}
 	}

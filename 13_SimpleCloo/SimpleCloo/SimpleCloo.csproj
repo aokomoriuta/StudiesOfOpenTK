@@ -53,6 +53,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="BuildCLException.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -64,6 +65,8 @@
     <Compile Include="ComputerCpu.cs" />
     <Compile Include="OutputParticle.cs" />
     <Compile Include="Material.cs" />
+    <Compile Include="ComputerCL.cs" />
+    <Compile Include="Computer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="SimpleClooMain.xaml">
@@ -91,12 +94,13 @@
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="GLSL\point_fragment.glsl" />
+    <None Include="CL\SinAcceleration.cl" />
     <EmbeddedResource Include="GLSL\point_geometry.glsl" />
     <None Include="GLSL\point_vertex.glsl" />
+    <None Include="GLSL\point_fragment.glsl" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Cloo\Cloo.csproj">

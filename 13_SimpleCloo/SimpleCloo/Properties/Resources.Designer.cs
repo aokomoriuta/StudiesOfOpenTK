@@ -182,5 +182,35 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo.Properties {
                 return ResourceManager.GetString("point_vertex", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   //! 三角関数の加速度を与えて移動させる
+        ////*!
+        ///	\param count 粒子数
+        ///	\param particlesX 位置ベクトル配列
+        ///	\param particlesU 速度ベクトル配列
+        ///	\param particlesA 加速度ベクトル配列
+        ///	\param particlesD 粒径ベクトル配列
+        ///	\param A 振幅
+        ///	\param omega 角速度
+        ///	\param dt 時間刻み
+        ///*/
+        ///__kernel void SinAcceleration(
+        ///	int count,
+        ///	__global float4* particlesX,
+        ///	__global float4* particlesU,
+        ///	__global float4* particlesA,
+        ///	const __global float* particlesD,
+        ///	float A,
+        ///	float omega,
+        ///	float dt)
+        ///{
+        ///} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        internal static string SinAcceleration {
+            get {
+                return ResourceManager.GetString("SinAcceleration", resourceCulture);
+            }
+        }
     }
 }

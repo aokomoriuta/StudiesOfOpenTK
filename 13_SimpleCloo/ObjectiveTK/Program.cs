@@ -112,6 +112,22 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveTK
 			}
 		}
 
+		/// <summary>
+		/// バッファーをすべて除去する
+		/// </summary>
+		public void ClearBuffer()
+		{
+			// 全バッファーについて
+			foreach(var buffer in this.buffers)
+			{
+				// バッファーを削除
+				buffer.Dispose();
+			}
+
+			// バッファー群から全除去
+			buffers.Clear();
+		}
+
 
 		/// <summary>
 		/// floatスカラーのUniform変数を設定する
@@ -202,6 +218,9 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveTK
 		/// </summary>
 		public void Dispose()
 		{
+			// 全バッファーを削除
+			this.ClearBuffer();
+
 			// プログラムを削除する
 			GL.DeleteProgram(this.ID);
 		}

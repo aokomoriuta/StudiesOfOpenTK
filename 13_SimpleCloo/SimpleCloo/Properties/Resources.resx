@@ -127,4 +127,7 @@
   <data name="point_vertex" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\glsl\point_vertex.glsl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;utf-8</value>
   </data>
+  <data name="SinAcceleration" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\cl\sinacceleration.cl;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;shift_jis</value>
+  </data>
 </root>

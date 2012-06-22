@@ -26,13 +26,23 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 		/// <summary>
 		/// 1秒間の描画回数
 		/// </summary>
-		const int fps = 1000 / 25;
+		const int fps = 1000 / 2;
+
+		/// <summary>
+		/// 現在使用している計算プログラム
+		/// </summary>
+		public Computer computer;
 
 		/// <summary>
 		/// 最上位ウインドウを作成
 		/// </summary>
-		public MainWindow(ComputerCpu computer)
+		/// <param name="computer">CPU計算</param>
+		/// <param name="computerCL">OpenCL計算</param>
+		public MainWindow(ComputerCpu computerCpu, ComputerCL computerCL)
 		{
+			// 既定ではCPUで計算
+			this.computer = computerCpu;
+
 			// コンポーネント初期化
 			InitializeComponent();
 
@@ -124,7 +134,7 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 					this.Viewport.Dispatcher.BeginInvoke((Action)(() =>
 					{
 						// 現在の粒子を取得
-						var thisParticles = computer.GetParticles();
+						var thisParticles = this.computer.GetParticles();
 
 						// 出力用と粒子数が違えば
 						if((this.particlesBuffer == null)||(outputParticles.Length != thisParticles.Length))
@@ -138,8 +148,11 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 								outputParticles.Length,
 								MainWindow.CreatePointsIndices(outputParticles.Length));
 
+							// バッファーを全除去
+							this.programPoint.ClearBuffer();
+
 							// ポイントスプライトプログラムにバッファーを割り当て
-							programPoint.AttachBuffer(this.particlesBuffer,
+							this.programPoint.AttachBuffer(this.particlesBuffer,
 								new[]
 							{
 								new VertexAttribution("particleX", VertexAttribPointerType.Float, 3, 0),
@@ -172,12 +185,12 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 				this.TimePanel.Dispatcher.BeginInvoke((Action)(() =>
 				{
 					// 時刻・タイムステップ数・時間刻みを表示
-					this.TBox.Text = computer.T.ToString("G5");
-					this.StepsBox.Text = computer.TimeStep.ToString();
-					this.DtBox.Text = computer.Dt.ToString("e");
+					this.TBox.Text = this.computer.T.ToString("G5");
+					this.StepsBox.Text = this.computer.TimeStep.ToString();
+					this.DtBox.Text = this.computer.Dt.ToString("e");
 
 					// 粒子数を表示
-					this.ParticleCountBox.Text = computer.ParticleCount.ToString();
+					this.ParticleCountBox.Text = this.computer.ParticleCount.ToString();
 				}));
 			}));
 
@@ -197,21 +210,21 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 				this.TimePanel.Dispatcher.BeginInvoke((Action)(() =>
 				{
 					// 時間ステップを取得
-					var thisTimeStep = computer.TimeStep;
+					var thisTimeStep = this.computer.TimeStep;
 					var thisRealT = DateTime.Now;
 
 					// 時間ステップが進んでいれば
 					if(thisTimeStep != oldTimeStep)
 					{
 						// 時刻を取得
-						var thisT = computer.T;
+						var thisT = this.computer.T;
 
 						// 経過時間を秒で計算
 						double interval = (double)(thisRealT - oldRealT).TotalSeconds;
 
 						// 各データを表示
 						this.StepPerRealBox.Text = (interval / (thisTimeStep - oldTimeStep)).ToString("G5");
-						this.StepPerRealPerParticleBox.Text = (interval / (thisTimeStep - oldTimeStep) / computer.ParticleCount).ToString("G5");
+						this.StepPerRealPerParticleBox.Text = (interval / (thisTimeStep - oldTimeStep) / this.computer.ParticleCount).ToString("G5");
 						this.ComputationalPerRealBox.Text = (interval / (thisT - oldT)).ToString("G5");
 
 						// 前の時刻と時間ステップを設定
@@ -227,6 +240,79 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 
 			// 1秒感覚で速度計測を開始
 			speedMeasure.Change(0, 1000);
+
+
+
+
+			// OS名
+			this.OSNameBox.Text = System.Environment.OSVersion.ToString();
+
+			// CPUの
+			foreach(var processor in new System.Management.ManagementClass("Win32_Processor").GetInstances())
+			{
+				// データを表示
+				this.CpuNameBox.Text = string.Format("{0}", processor["Name"]);
+				this.CpuVenderBox.Text = string.Format("{0}", processor["Manufacturer"]);
+				this.CpuMaxClockBox.Text = string.Format("{0:0.00}", double.Parse(processor["MaxClockSpeed"].ToString()) / 1024);
+				this.CpuCoreBox.Text = string.Format("{0}", processor["NumberOfCores"]);
+			}
+			foreach(var os in new System.Management.ManagementClass("Win32_OperatingSystem").GetInstances())
+			{
+				// メモリを表示
+				this.CpuMemoryBox.Text = string.Format("{0:0.00}", double.Parse(os["MaxProcessMemorySize"].ToString()) / 1024 / 1024);
+			}
+
+			// プラットフォームデータを表示
+			this.PlatformNameBox.Text = computerCL.Platform.Name;
+			this.PlatformVenderBox.Text = computerCL.Platform.Vendor;
+			this.PlatformVersionBox.Text = computerCL.Platform.Version;
+			this.PlatformProfileBox.Text = computerCL.Platform.Profile;
+
+			// デバイスデータを表示
+			this.DeviceNameBox.ItemsSource = computerCL.Devices;
+			this.DeviceNameBox.SelectionChanged += (sender, e) =>
+			{
+				var device = this.DeviceNameBox.SelectedItem as Cloo.ComputeDevice;
+
+				this.DeviceVenderBox.Text = device.Vendor;
+				this.DeviceDriverVersionBox.Text = device.DriverVersion;
+				this.DeviceOpenCLVersionBox.Text = device.OpenCLCVersionString;
+				this.DeviceCUBox.Text = string.Format("{0}", device.MaxComputeUnits);
+				this.DeviceGlobalMemoryBox.Text = string.Format("{0}", device.GlobalMemorySize);
+				this.DeviceLocalMemoryBox.Text = string.Format("{0}", device.LocalMemorySize);
+			};
+			this.DeviceNameBox.SelectedIndex = 0;
+
+
+			// 前の時刻を初期化する
+			Action resetOldTime = () =>
+			{
+				oldT = this.computer.T;
+				oldTimeStep = this.computer.TimeStep;
+			};
+
+			// CPUで計算する場合は
+			this.WithCpuButton.Checked += (sender, e) =>
+			{
+				// 計算プログラムをCpuに設定
+				this.computer = computerCpu;
+
+				// 前の時刻を初期化
+				resetOldTime();
+			};
+
+			// OpenCLで計算する場合は
+			this.WithCLButton.Checked += (sender, e) =>
+			{
+				// 計算プログラムをOpenCLに設定
+				this.computer = computerCL;
+
+				// 前の時刻を初期化
+				resetOldTime();
+			};
+
+			// 前の時刻を初期化
+			resetOldTime();
 
 			// 初期化完了
 			this.LogLine("完了");

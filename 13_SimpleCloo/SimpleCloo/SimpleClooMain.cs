@@ -3,6 +3,7 @@ using LWisteria.StudiesOfOpenTK.Math;
 using OpenTK.Graphics;
 using System.Threading.Tasks;
 using Cloo;
+using System;
 namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 {
 	/// <summary>
@@ -25,7 +26,7 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 			const double length0Wall = diameterWall * 0.75;
 
 			// 計算領域
-			const double sizeX = 4500e-3;
+			const double sizeX = 45000e-3;
 			const double sizeZ = 2200e-3;
 			const double extraSize = diameter;
 
@@ -39,11 +40,12 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 			double omega = 2.0;
 			
 			// 計算プログラムを初期化
-			var computer = new ComputerCpu(maxDt, A, omega);
+			var computerCpu = new ComputerCpu(maxDt, A, omega);
+			var computerCL = new ComputerCL(maxDt, A, omega);
 
 
 			// 最上位ウインドウを作成して設定
-			MainWindow mainWindow = new MainWindow(computer);
+			MainWindow mainWindow = new MainWindow(computerCpu, computerCL);
 			base.MainWindow = mainWindow;
 
 			mainWindow.Log("データ初期化中...");
@@ -71,106 +73,127 @@ namespace LWisteria.StudiesOfOpenTK.SimpleCloo
 			{
 				for(double z = 0; z < sizeZ; z += length0)
 				{
-					// 移動粒子作成して追加
-					computer.AddParticle(new Particle(particleID++, diameter * (0.4 + 0.6 * z / sizeZ), materials[0], ParticleType.FreeMovable)
+					// 移動粒子を作成
+					var particle = new Particle(particleID++, diameter * (0.4 + 0.6 * z / sizeZ), materials[0], ParticleType.FreeMovable)
 					{
 						X = new Vector(x, 0, z)
-					});
+					};
+
+					// 追加
+					computerCpu.AddParticle(particle);
+					computerCL.AddParticle(particle);
 				}
 			}
 
 			// 床の部分に
 			for(double x = -extraSize; x < sizeX + extraSize; x += length0Wall)
 			{
-				// 作成して追加
-				computer.AddParticle(new Particle(particleID++, diameterWall, materials[1], ParticleType.Fixed)
+				// 固定粒子を作成
+				var particle = new Particle(particleID++, diameterWall, materials[1], ParticleType.Fixed)
 				{
 					X = new Vector(x, 0, -extraSize)
-				});
-			}
+				};
 
-			// 壁の部分に
-			for(double z = -extraSize; z < sizeZ + extraSize; z += length0Wall)
-			{
-				// 作成して追加
-				computer.AddParticle(new Particle(particleID++, diameterWall, materials[1], ParticleType.Fixed)
-				{
-					X = new Vector(-extraSize, 0, z)
-				});
-				computer.AddParticle(new Particle(particleID++, diameterWall, materials[1], ParticleType.Fixed)
-				{
-					X = new Vector(sizeX+extraSize, 0, z)
-				});
+				// 追加
+				computerCpu.AddParticle(particle);
+				computerCL.AddParticle(particle);
 			}
 
 			mainWindow.LogLine("完了");
 
-			// 計算中かどうか
-			bool isComputing = true;
 
-			// 個別要素法の自動実行スレッドを生成
-			Task demWorker = new Task(() =>
+
+			// 計算中かどうか
+			bool isComputing = false;
+
+			// 計算中かどうかを変更する
+			Action<bool> changeIsComputing = (isComputingNow) =>
 			{
-				// 計算中の間
-				//while(isComputing)
+				// 計算状態を設定
+				isComputing = isComputingNow;
+				
+				// ウインドウで
+				mainWindow.Dispatcher.BeginInvoke((Action)(() =>
 				{
-					// 次ステップに進める
-					computer.Next();
+					// 1ステップ計算のボタンの有効化および無効化
+					mainWindow.ComputeOneButton.IsEnabled = !isComputingNow;
+
+					// 計算状態に合わせて自動実行ボタンの表示を変える
+					mainWindow.ComputeAllButton.Content = (isComputingNow) ? "自動実行を停止" : "自動実行を開始";
+
+
+					// 計算開始および終了を通知
+					mainWindow.LogLine((isComputingNow) ? "計算を開始" : "計算を終了");
+				}));
+			};
+
+
+			// 1ステップ実行がクリックされたら
+			mainWindow.ComputeOneButton.Click += (sender, e) =>
+			{
+				// 計算中でなければ
+				if(!isComputing)
+				{
+					// 計算開始
+					changeIsComputing(true);
+
+					// 1ステップだけ進める
+					mainWindow.computer.Next();
+
+					// 計算終了
+					changeIsComputing(false);
 				}
-			}, TaskCreationOptions.LongRunning);
+			};
+
+			// 自動実行がクリックされたら
+			mainWindow.ComputeAllButton.Click += (sender, e) =>
+			{
+				// 計算中でなければ
+				if(!isComputing)
+				{
+					// 計算開始
+					changeIsComputing(true);
+
+					// 自動実行スレッド開始
+					new Task(() =>
+					{
+						// 計算中の間
+						while(isComputing)
+						{
+							// 次ステップに進める
+							mainWindow.computer.Next();
+						}
+
+						// 計算終了
+						changeIsComputing(false);
+
+					}, TaskCreationOptions.LongRunning).Start();
+				}
+				// 計算中なら
+				else
+				{
+					// 計算中断
+					changeIsComputing(false);
+				}
+			};
+
+			// プログラムが切り替わったら
+			System.Windows.RoutedEventHandler stopWhenSwitchWith = (sender, e) =>
+			{
+				// 計算終了
+				changeIsComputing(false);
+			};
+
+			// プログラムが切り替わった時の処理
+			mainWindow.WithCpuButton.Checked += stopWhenSwitchWith;
+			mainWindow.WithCLButton.Checked += stopWhenSwitchWith;
 
 			// アプリケーションの終了時に
 			this.Exit += (sender, e) =>
 			{
 				// 計算終了
-				isComputing = false;
+				changeIsComputing(false);
 			};
-
-			// 自動実行スレッド開始
-			demWorker.Start();
-
-			// OS名
-			mainWindow.OSNameBox.Text = System.Environment.OSVersion.ToString();
-
-			// CPUの
-			foreach(var processor in new System.Management.ManagementClass("Win32_Processor").GetInstances())
-			{
-				// データを表示
-				mainWindow.CpuNameBox.Text = string.Format("{0}", processor["Name"]);
-				mainWindow.CpuVenderBox.Text = string.Format("{0}", processor["Manufacturer"]);
-				mainWindow.CpuMaxClockBox.Text = string.Format("{0:0.00}", double.Parse(processor["MaxClockSpeed"].ToString())/1024);
-				mainWindow.CpuCoreBox.Text = string.Format("{0}", processor["NumberOfCores"]);
-			}
-			foreach(var os in new System.Management.ManagementClass("Win32_OperatingSystem").GetInstances())
-			{
-				// メモリを表示
-				mainWindow.CpuMemoryBox.Text = string.Format("{0:0.00}", double.Parse(os["MaxProcessMemorySize"].ToString()) / 1024 / 1024);
-			}
-
-			// OpenCLプラットフォームとデバイスを取得
-			var platform = ComputePlatform.Platforms[0];
-			var devices = platform.Devices;
-
-			// プラットフォームデータを表示
-			mainWindow.PlatformNameBox.Text = platform.Name;
-			mainWindow.PlatformVenderBox.Text = platform.Vendor;
-			mainWindow.PlatformVersionBox.Text = platform.Version;
-			mainWindow.PlatformProfileBox.Text = platform.Profile;
-
-			// デバイスデータを表示
-			mainWindow.DeviceNameBox.ItemsSource = devices;
-			mainWindow.DeviceNameBox.SelectionChanged += (sender, e) =>
-			{
-				var device = mainWindow.DeviceNameBox.SelectedItem as ComputeDevice;
-
-				mainWindow.DeviceVenderBox.Text = device.Vendor;
-				mainWindow.DeviceDriverVersionBox.Text = device.DriverVersion;
-				mainWindow.DeviceOpenCLVersionBox.Text = device.OpenCLCVersionString;
-				mainWindow.DeviceCUBox.Text = string.Format("{0}", device.MaxComputeUnits);
-				mainWindow.DeviceGlobalMemoryBox.Text = string.Format("{0}", device.GlobalMemorySize);
-				mainWindow.DeviceLocalMemoryBox.Text = string.Format("{0}", device.LocalMemorySize);
-			};
-			mainWindow.DeviceNameBox.SelectedIndex = 0;
 
 		}
 	}

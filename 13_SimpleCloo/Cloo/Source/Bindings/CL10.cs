@@ -315,7 +315,7 @@ namespace Cloo.Bindings
         public extern static CLProgramHandle CreateProgramWithSource(
             CLContextHandle context,
             Int32 count,
-            String[] strings,
+            [In] String[] strings,
             [MarshalAs(UnmanagedType.LPArray)] IntPtr[] lengths,
             out ComputeErrorCode errcode_ret);
 

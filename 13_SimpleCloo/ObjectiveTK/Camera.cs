@@ -35,7 +35,7 @@ namespace LWisteria.StudiesOfOpenTK.ObjectiveTK
 		{
 			// パラメーターを初期化
 			this.r = 100;
-			this.theta = 180;
+			this.theta = -Math.PI/2;
 			this.phi = 0;
 			this.lookAt = new Vector3(0, 0, 0);
 		}

@@ -81,10 +81,36 @@
 					</Style>
 				</TabControl.Resources>
 				
-				<!-- 数値データの表示 -->
-				<TabItem Header="計算空間情報">
-					<ScrollViewer HorizontalScrollBarVisibility="Auto">
+				<!-- 操作タブ -->
+				<TabItem Header="計算空間">
+					<ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
 						<DockPanel>
+							<!-- 実行パネル -->
+							<Grid Margin="10">
+								<!-- 行定義 -->
+								<Grid.RowDefinitions>
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+									<RowDefinition />
+								</Grid.RowDefinitions>
+								<!-- 列定義 -->
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition Width="1*"/>
+									<ColumnDefinition Width="1*"/>
+								</Grid.ColumnDefinitions>
+
+								<!-- タイトル -->
+								<TextBlock Grid.Row="0" Style="{StaticResource Title}">計算の実行</TextBlock>
+								
+								<!-- CPUとOpenCLの切り替えボタン -->
+								<RadioButton x:Name="WithCpuButton" GroupName="ComputeWithButtons" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" IsChecked="True">CPU</RadioButton>
+								<RadioButton x:Name="WithCLButton"  GroupName="ComputeWithButtons" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">OpenCL</RadioButton>
+
+								<Button x:Name="ComputeOneButton" Grid.Row="2" Grid.ColumnSpan="2" >1ステップ実行</Button>
+								<Button x:Name="ComputeAllButton" Grid.Row="3" Grid.ColumnSpan="2" >自動実行を開始</Button>
+							</Grid>
+							
 							<!-- 時刻表示パネル -->
 							<Grid x:Name="TimePanel">
 								<!-- 行定義 -->
@@ -153,7 +179,7 @@
 				</TabItem>
 
 				<!-- 計算機情報 -->
-				<TabItem Header="計算機情報">
+				<TabItem Header="計算機">
 					<!-- スタイルの設定 -->
 					<TabItem.Resources>
 						<!-- テキスト表示 -->
